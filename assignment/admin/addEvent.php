@@ -8,13 +8,23 @@ if(isset($_POST['submit'])){
   $event_location = $_POST['event-location'];
   $event_description = $_POST['event-description'];
   $event_capacity = $_POST['event-capacity'];
-  $query = mysqli_query($con, "INSERT INTO events(Title, Date, Time_Start, Time_End, Venue, Description, Capacity) VALUES('$event_name', '$event_date', '$event_time_start', '$event_time_end', '$event_location', '$event_description', '$event_capacity')");
+  $event_ticket = $_POST['event-ticket'];
+
+  if ($event_ticket > $event_capacity) {
+    echo "<script>alert('The number of tickets cannot be more than the event capacity');
+    window.location.href='addEvent.php';</script>";
+    exit();
+  }
+
+  $query = mysqli_query($con, "INSERT INTO events(Title, Date, Time_Start, Time_End, Venue, Description, Capacity,Ticket_Quantity) VALUES('$event_name', '$event_date', '$event_time_start', '$event_time_end', '$event_location', '$event_description', '$event_capacity','$event_ticket')");
   if($query){
-    echo "<script>alert('Event added successfully')</script>";
-    header("Location: event.php");
+    echo "<script>alert('Event added successfully');
+    window.location.href='event.php'</script>";
+    exit();
   }else{
-    echo "<script>alert('Failed to add event')</script>";
-    header('Location: addEvent.php');
+    echo "<script>alert('Failed to add event');
+    window.location.href='addEvent.php'</script>";
+    exit();
   }
 }else{ ?>
 <?php include('includes/header.php');?>
@@ -50,8 +60,15 @@ if(isset($_POST['submit'])){
       <input type="number" id="event-capacity" name="event-capacity" min="1" required>
     </div>
     <div class="form-group">
+      <label for="event-ticket">Ticket Quantity:</label>
+      <input type="number" id="event-ticket" name="event-ticket" min="1" required>
+    </div>
+    <div class="form-group">
       <input type="submit" id="event-submit" name="submit" value="Insert">
+      <input type="button" id="event-submit" name="cancel" value="Cancel" onclick="window.location.href='event.php'">
     </div>
   </form>
 </main>
 <?php } ?>
+<?php include('includes/footer.php')?>
+<?php include('includes/scripts.php');?>

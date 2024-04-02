@@ -26,8 +26,8 @@
                     <div id="head-mobile"></div>
                     <div class="button"></div>
                     <ul>
-                        <li class='active'><a href='#'>Home</a></li>
-                        <li><a href='#'>Services</a>
+                        <li class='active'><a href='home.php'>Home</a></li>
+                        <li><a href='event.php'>Event</a>
                             <ul>
                                 <li><a href='#'>Services 1</a></li>
                                 <li><a href='#'>Services 2</a>
@@ -40,7 +40,7 @@
                                 <li><a href='#'>Services 4</a></li>
                             </ul>
                         </li>
-                        <li><a href='#'>Reviews</a></li>
+                        <li><a href='viewTicket.php'>View Tickets</a></li>
                         <li><a href='#'>Special Offers</a></li>
                         <li><a href='#'>Contact</a></li>
                         <li><a href='#'>Book Online</a></li>

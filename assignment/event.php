@@ -2,7 +2,12 @@
 <?php if(!isset($_SESSION['valid'])){
     header("Location: login.php");
     exit();
-}?>
+}else{
+    $searchTerm = '';
+    include('admin/php/con_db.php');
+    if (isset($_GET['submit'])) {
+        $searchTerm = mysqli_real_escape_string($con, $_GET['search']);
+    }?>
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -12,16 +17,21 @@
   <title>Events</title>
   <link href="style/header.css" rel="stylesheet" />
   <link href="style/footer.css" rel="stylesheet" />
-  <link href="style/event.css" rel="stylesheet"/>
+  <link href="style/event_ticket.css" rel="stylesheet"/>
 </head>
 <body>
-<?php include('includes/header.php');?>
+<?php include('includes/header.php');
+?>
 <div class="container">
         <h1>Tay Badminton Club Events</h1>
         <p>Check out our upcoming events and join us for some fun!</p>
-        <?php include('admin/php/con_db.php');
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+            <input type="text" name="search" placeholder="Search for events">
+            <input type="submit" value="Search" name="submit">
+            <input type="button" value="Reload" onclick="window.location.href='event.php'">
+        </form><?php
         $id = $_SESSION['studentId'];
-        $query = mysqli_query($con, "SELECT * FROM events");
+        $query = mysqli_query($con, "SELECT * FROM events WHERE Title LIKE '%$searchTerm%'");
         while($result = mysqli_fetch_assoc($query)){?>
         <div class="event">
             <h2><?php echo $result['Title'];?></h2>
@@ -30,11 +40,12 @@
             <p><strong>Location:</strong><?php echo $result['Venue'];?></p>
             <p><strong>Description:</strong><?php echo $result['Description'];?></p>
             <p><strong>Capacity:</strong><?php echo $result['Capacity'];?></p>
-            <button class="btn" onclick="window.location.href='ticket.php?Id=<?php echo $id;?>'">Join Event</button>
+            <p><strong>Ticket remaining:</strong><?php echo $result['Ticket_Quantity'];?></p>
+            <button class="btn" onclick="window.location.href='ticket.php?StudentId=<?php echo $id;?>&EventId=<?php echo $result['EventID'];?>'">Join Event</button>
         </div>
         <?php } ?>
         <!-- Add more events as needed -->
     </div>
-    <?php include('includes/footer.php');?>
+    <?php include('includes/footer.php'); }?>
 </body>
-<?php include('includes/footer.php');?>
+</html>

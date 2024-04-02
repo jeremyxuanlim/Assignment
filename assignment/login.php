@@ -29,7 +29,7 @@
                     $_SESSION['age'] = $row['Age'];
                     $_SESSION['gender'] = $row['Gender'];
                     $_SESSION['email'] = $row['Email'];
-                    $_SESSION['id'] = $row['StudentID'];
+                    $_SESSION['studentId'] = $row['StudentID'];
                 }else{
                     echo "<div class='message error'>
                       <h1>Oops!</h1>
